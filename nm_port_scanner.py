@@ -11,17 +11,15 @@ YouTube Video:
 https://www.youtube.com/watch?v=AtzRsJ4ba68&list=FLG4IMKVkWJ1h-O464F608gQ
 
 """
-q
+
 from scapy.all import *
-import pprint
 import socket
 import time
 import pandas as pd
 import numpy as np
 import logging
-logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 
-# import sys
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 
 csv_file_path = 'C:/Users/nmist/Google Drive/Python Programs/Hacking/My Port Scanner/'
 csv_input_file = 'service-names-port-numbers.csv'
@@ -53,7 +51,6 @@ start_port = 1
 end_port = 85
 open_ports = []
 
-
 common_ports = {21, 22, 23, 25, 53, 69, 80, 88, 109, 119,
                 123, 137, 138, 139, 143, 156, 161, 389, 443,
                 445, 500, 546, 547, 587, 660, 995, 993, 2086,
@@ -62,16 +59,16 @@ common_ports = {21, 22, 23, 25, 53, 69, 80, 88, 109, 119,
 
 ip = socket.gethostbyname(host_address)
 
-start_time = time.time()
-
 print('\nScanning ' + host_address + ' for all Common Ports\n')
 print(socket.getfqdn(host_address))
 print(socket.gethostname())
 print(socket.gethostbyaddr(host_address))
-print(socket.getaddrinfo(host_address,80))
+print(socket.getaddrinfo(host_address, 80))
+
 
 # print('\nScanning '+host_address+' for open TCP ports from port '+str(start_port)+' to '+str(end_port)+'\n')
 
+start_time = time.time()
 
 def prob_port(host_address, port, result=1):
     try:
@@ -85,7 +82,7 @@ def prob_port(host_address, port, result=1):
     except Exception as e:
         pass
 
-    return result
+    return
 
 
 # for p in range(start_port, end_port + 1):
