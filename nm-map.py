@@ -1,17 +1,27 @@
 import click
 from scapy.all import *
 
-@click.command()
-# @click.echo('TARGET SPECIFICATION:')
-@click.argument('text, nargs = -1')
-@click.option('--decrypt/--encrypt', '-d/-e')
-@click.option('--key', '-k', default=1)
-def caesar(text, decrypt, key):
-    text_string = ' '.join(text)
-    if decrypt:
-        key = -key
-    cyphertext = encrypt(text_string, key)
-    click.echo(cyphertext)
+
+@click.group()
+@click.version_option(version='0.1', prog_name='Network Scanner')
+def main():
+    """ Network Scanner"""
+    pass
+
+
+@main.command()
+@click.argument('')
+def sL():
+    """List Scan - simply list target to scan"""
+    click.echo("This is a list of targets to scan")
+
+
+@main.command()
+@click.argument('')
+def sn():
+    """Ping Scan - disable port port scan"""
+    click.secho('This is Ping scan', fg='green')
+
 
 if __name__ == '__main__':
-    caesar()
+    main()
