@@ -23,7 +23,7 @@ import time
 # startpoint = int(sys.argv[2])
 # endpoint =  int(sys.argv[3])
 
-host_address = "www.itv.com"
+host_address = "www.google.com"
 startpoint = 1
 endpoint = 81
 open_ports = []
@@ -34,7 +34,7 @@ open_ports = []
 #                 2087, 2082, 2083, 3306, 8443, 8080, 10000
 #                 }
 
-common_ports = {80, 443}
+common_ports = [80, 443]
 
 print('Scanning '+host_address+' for open TCP ports')
 start_time = time.time()
@@ -42,16 +42,15 @@ start_time = time.time()
 if startpoint == endpoint:
     endpoint += 1
 
-for x in sorted(common_ports):
+for x in common_ports:
     packet = IP(dst=host_address)/TCP(dport=x, flags='S')
     response = sr1(packet,timeout=0.5,verbose=0)
     if response != None:
-        if TCP in response:
-            if response[TCP].flags == 'SA':
-                print('\nPort '+str(x)+' is open')
-                open_ports.append(x)
-                sr1(IP(dst=host_address)/TCP(dport=response.sport,flags='R'),timeout=0.5,verbose=0)
-
+        if TCP in response and response[TCP].flags == 'SA':
+            print('\nPort '+str(x)+' is open')
+            open_ports.append(x)
+            sr1(IP(dst=host_address)/TCP(dport=response.sport,flags='R'),timeout=0.5,verbose=0)
+            time.sleep(7)
 
 print('\nScan is Complete !!!!!\n')
 
