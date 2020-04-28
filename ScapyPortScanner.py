@@ -16,32 +16,50 @@ from scapy.all import *
 import time
 
 # if len(sys.argv) != 4 :
-#     print("Usage: %s target startpoint endpoint"%(sys.argv[0]))
+#     print("Usage: %s host_address startpoint endpoint"%(sys.argv[0]))
 #     sys.exit(0)
 
-# target = str(sys.argv[1])
+# host_address = str(sys.argv[1])
 # startpoint = int(sys.argv[2])
 # endpoint =  int(sys.argv[3])
 
-target = "www.google.com"
+host_address = "www.itv.com"
 startpoint = 1
 endpoint = 81
+open_ports = []
 
-print('Scanning '+target+' for open TCP ports')
+# common_ports = {21, 22, 23, 25, 53, 69, 80, 88, 109, 119,
+#                 123, 137, 138, 139, 143, 156, 161, 389, 443,
+#                 445, 500, 546, 547, 587, 660, 995, 993, 2086,
+#                 2087, 2082, 2083, 3306, 8443, 8080, 10000
+#                 }
+
+common_ports = {80, 443}
+
+print('Scanning '+host_address+' for open TCP ports')
 start_time = time.time()
 
 if startpoint == endpoint:
     endpoint += 1
 
-for x in range(startpoint, endpoint):
-    packet = IP(dst=target)/TCP(dport=x, flags='S')
-    response = sr1(packet,timeout=0.2,verbose=0)
+for x in sorted(common_ports):
+    packet = IP(dst=host_address)/TCP(dport=x, flags='S')
+    response = sr1(packet,timeout=0.5,verbose=0)
     if response != None:
         if TCP in response:
             if response[TCP].flags == 'SA':
-                print('Port '+str(x)+' is open')
-                sr(IP(dst=target)/TCP(dport=response.sport,flags='R'),timeout=0.5,verbose=0)
+                print('\nPort '+str(x)+' is open')
+                open_ports.append(x)
+                sr1(IP(dst=host_address)/TCP(dport=response.sport,flags='R'),timeout=0.5,verbose=0)
 
-print('Scan is Complete !!!!!\n')
+
+print('\nScan is Complete !!!!!\n')
+
+if open_ports:
+    print("\n\nOpen Ports Found: -----> ", sorted(open_ports))
+else:
+    print("Sorry, No open ports found.!!!")
+
 print('\nTotal Time to Execute = %s' % (time.time() - start_time) + ' Seconds')
+
         
