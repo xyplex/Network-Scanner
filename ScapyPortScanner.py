@@ -15,17 +15,11 @@ import sys
 from scapy.all import *
 import time
 
-# if len(sys.argv) != 4 :
-#     print("Usage: %s host_address startpoint endpoint"%(sys.argv[0]))
-#     sys.exit(0)
 
-# host_address = str(sys.argv[1])
-# startpoint = int(sys.argv[2])
-# endpoint =  int(sys.argv[3])
 
 host_address = "www.hackthissite.org"
-startpoint = 1
-endpoint = 81
+# startpoint = 1
+# endpoint = 81
 open_ports = []
 
 # common_ports = {21, 22, 23, 25, 53, 69, 80, 88, 109, 119,
@@ -34,13 +28,13 @@ open_ports = []
 #                 2087, 2082, 2083, 3306, 8443, 8080, 10000
 #                 }
 
-common_ports = [80, 443]
+common_ports = [23, 80, 443]
 
 print('Scanning '+host_address+' for open TCP ports')
 start_time = time.time()
 
-if startpoint == endpoint:
-    endpoint += 1
+# if startpoint == endpoint:
+#     endpoint += 1
 
 for x in common_ports:
     packet = IP(dst=host_address)/TCP(dport=x, flags='S')
