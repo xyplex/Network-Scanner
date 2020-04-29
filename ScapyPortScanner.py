@@ -23,7 +23,7 @@ import time
 # startpoint = int(sys.argv[2])
 # endpoint =  int(sys.argv[3])
 
-host_address = "www.google.com"
+host_address = "www.hackthissite.org"
 startpoint = 1
 endpoint = 81
 open_ports = []
